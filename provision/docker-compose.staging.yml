@@ -1,0 +1,13 @@
+wp:
+  image: wordpress
+  environment:
+    - WORDPRESS_DB_HOST=mysql
+    - WORDPRESS_DB_USER=<wordpress user in the database>
+    - WORDPRESS_DB_PASSWORD=<wordpress user password>
+    - WORDPRESS_DB_NAME=<wordpress database name>
+  volumes:
+      - ./wp:/var/www/html/wp-content
+  external_links:
+    - <container with mysql database>:mysql
+  ports:
+    - <properly expose ports>

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+################################################################################
+#                                                                              #
+#                                 {o,o}                                        #
+#                                 |)__)                                        #
+#                                 -"-"-                                        #
+#                                                                              #
+################################################################################
+#
+#Exampler preBuild script.This script is used on all enviorments.
+#
+##############################---FUNCTIONS---###################################
+#This runs bower, npm and gulp in the projectbuilder container.
+# For more details look it up:
+# https://registry.hub.docker.com/u/kendu/projectbuilder/
+function provision() {
+    docker run \
+        --rm \
+        -v $(pwd):/opt/web \
+        -w /opt/web  \
+        kendu/projectbuilder \
+        bash -c "bower install --allow-root
+        npm install
+        gulp "
+}
+
+################################################################################
+
+###############################---EXECUTION---##################################
+
+#Provision
+provision
+
+################################################################################

@@ -1,0 +1,28 @@
+wp:
+  image: wordpress
+  environment:
+    - VIRTUAL_HOST=wp-repo.local
+    - WORDPRESS_DB_HOST=mysql
+    - WORDPRESS_DB_USER=wp_user
+    - WORDPRESS_DB_PASSWORD=secretPassowrd
+    - WORDPRESS_DB_NAME=wp_database
+  volumes:
+      - ./wp:/var/www/html/wp-content
+  links:
+    - mysql
+
+  hostname:   wp-repo.local
+
+mysql:
+  image: mysql
+  environment:
+    - MYSQL_DATABASE=wp_database
+    - MYSQL_USER=wp_user
+    - MYSQL_PASSWORD=secretPassowrd
+    - MYSQL_ROOT_PASSWORD=verySecretPassowrd
+
+builder:
+  image:    kendu/projectbuilder
+  volumes:
+    - .:/opt/web
+  working_dir: /opt/web
