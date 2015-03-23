@@ -19,9 +19,10 @@ cd $( dirname $0 )
 ##############################---FUNCTIONS---###################################
 
 function fixPermissions() {
-    sudo find wp/ -type d -exec chmod 775 {} \;
-    sudo find wp/ -type f -exec chmod 664 {} \;
-    sudo chown -R $( id -u ${USER} ) wp/
+    docker-compose run builder \
+        bash -c "sudo find wp/ -type d -exec chmod 775 {} \;
+        sudo find wp/ -type f -exec chmod 664 {} \;
+        sudo chown -R $( id -u ${USER} ) wp/"
 }
 
 ################################################################################
