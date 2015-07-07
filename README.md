@@ -96,3 +96,8 @@ docker-compose run builder bash
 But of course you won't be running things manually, now will you?
 To make things tidier, add all commands needed to run to the provisionDeploy
 script. This commands will be run when the setup script is run.
+
+# Known issues
+
+* Sometimes there is permission error, because wordpres chowns all its files
+to www-data user. running the `run.sh` script fixes this problem.
