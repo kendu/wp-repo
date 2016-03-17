@@ -97,6 +97,12 @@ But of course you won't be running things manually, now will you?
 To make things tidier, add all commands needed to run to the provisionDeploy
 script. This commands will be run when the setup script is run.
 
+### Gitignore flie
+
+By default the gitignore file contains the the wp directory. So if you're working on a theme or something, you should add an exception to the .gitignore file like this:
+```
+!wp/themes/<name_of_theme_you_are_working_on>
+```
 # Known issues
 
 * Sometimes there is permission error, because wordpres chowns all its files

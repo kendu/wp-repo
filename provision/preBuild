@@ -52,8 +52,6 @@ echo 'INFO: Running gulp'
 gulp build
 fi
 
-echo 'INFO: Fixing file permissions'
-chown -R ${REAL_USER_ID:-33} .
 echo 'INFO: Finished'
 exit 0 "
 }

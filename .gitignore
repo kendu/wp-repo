@@ -1,11 +1,8 @@
 /.dockerPullLock
-
-wp/*.php
-wp/themes
-wp/plugins
-!wp/themes/avant-car
+/wp
 
 .DS_Store
 bower_components
 node_modules
 vendor
+.dockerPullLock
