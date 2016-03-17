@@ -20,9 +20,42 @@ function provision() {
         -v $(pwd):/opt/web \
         -w /opt/web  \
         kendu/projectbuilder \
-        bash -c "bower install --allow-root
-        npm install
-        gulp "
+        bash -c "echo 'INFO: Starting integration.'
+if [ -e composer.json ]
+then
+echo 'INFO: Running composer'
+composer install
+fi
+
+if [ -e package.json ]
+then
+echo 'INFO: Running npm'
+npm install --no-bin-links
+npm rebuild node-sass
+fi
+
+if [ -e bower.json ]
+then
+echo 'INFO: Running bower'
+bower install --allow-root
+fi
+
+if [ -e Gruntfile.js ]
+then
+    echo 'INFO: Runing grunt'
+    grunt
+fi
+
+if [ -e gulpfile.js ]
+then
+echo 'INFO: Running gulp'
+gulp build
+fi
+
+echo 'INFO: Fixing file permissions'
+chown -R ${REAL_USER_ID:-33} .
+echo 'INFO: Finished'
+exit 0 "
 }
 
 ################################################################################
