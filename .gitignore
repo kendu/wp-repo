@@ -1,5 +1,7 @@
 /.dockerPullLock
-/wp
+/wp/*
+!/wp/themes
+/wp/themes/*
 
 .DS_Store
 bower_components
