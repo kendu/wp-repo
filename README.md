@@ -97,6 +97,13 @@ But of course you won't be running things manually, now will you?
 To make things tidier, add all commands needed to run to the provisionDeploy
 script. This commands will be run when the setup script is run.
 
+### Email configuration
+On servers you want mails to be sent via the host. To do that you need to:
+* install the WP Mail Bank plugin.
+* In this plugins settings Set:
+    * SMTP Host to `172.17.42.1`
+    * SMTP port to `25`.
+
 ### Gitignore flie
 
 By default the gitignore file contains the the wp directory. So if you're working on a theme or something, you should add an exception to the `wp/themes/.gitignore` file like this:
