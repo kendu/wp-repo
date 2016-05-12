@@ -23,6 +23,13 @@ For more details consult the installation guide:
 
 ### Preparations
 
+### Database
+Before the development can begin a datbase must be created on the server.
+This should be done in the mysql_dev docker container.
+
+### Server side file sync.
+To share uploaded and other development files with other developers, Make sure, the remote directory name is set in the provision/syncFiles.sh  script.
+
 #### Preparing files
 
 ##### docker-compose.yml
@@ -34,18 +41,15 @@ VIRTUAL_HOST
 WORDPRESS_DB_USER
 WORDPRESS_DB_PASSWORD
 WORDPRESS_DB_NAME
-MYSQL_USER
-MYSQL_PASSWORD
-MYSQL_DATABASE
-MYSQL_ROOT_PASSWORD
 hostname
 ```
-You must care that the following variables must match:
+Mount the theme you are developing into the wordpress container like this:
 ```
-WORDPRESS_DB_USER       =   MYSQL_USER
-WORDPRESS_DB_PASSWORD   =   MYSQL_PASSWORD
-WORDPRESS_DB_NAME       =   MYSQL_DATABASE
+volumes:
+    - ./wp:/var/www/html/wp-content
+    - ./<theme directory>:/var/www/html/wp-content/themes/<theme directory>
 ```
+
 ###### `/etc/hosts`
 
 The hosts file must include the address of your wordpress container

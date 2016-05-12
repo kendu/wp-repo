@@ -7,9 +7,7 @@
 #                                 -"-"-                                        #
 #                                                                              #
 ################################################################################
-#
-# The setup script. Sets up development enviorment
-#
+
 #################################---ENV---######################################
 
 set -e
@@ -19,49 +17,31 @@ set -u
 
 ##############################---VARIABLES---###################################
 
-DOCKER_IMAGES=( "kendu/wordpress" "mysql" )
-DOCKER_PULL_LOCK=".dockerPullLock"
-if ! [ "$#" -lt 1 ] && [ $1 == "--pull" ]
+REMOTE_SERVER="ocelot.kendu.si"
+REMOTE_DIRECTORY="wp-repo"
+
+################################################################################
+
+##############################---FUNCTIONS---###################################
+
+function checkRequirements() {
+    if [ -z "$(which unison)" ]
     then
-    DOCKER_PULL=true
-else
-    DOCKER_PULL=false
-fi
+        echo "INFO: Unison not found, installing"
+        apt-get update && \
+        apt-get install --yes unison
+    fi
+}
+
+function syncFiles() {
+    unison wp "ssh://unison@${REMOTE_SERVER}:56871/${REMOTE_DIRECTORY}"
+}
 
 ################################################################################
 
 ###############################---EXECUTION---##################################
 
-#Pull containers.
-if  [ ${DOCKER_PULL} == true ] ||
-    [ ! -e "${DOCKER_PULL_LOCK}" ] ||
-    [[ "$(date -r ${DOCKER_PULL_LOCK} +%F )" != "$(date +%F )" ]]
-    then
-    echo " > Checking for docker image updates"
-    touch ${DOCKER_PULL_LOCK}
-    for image in ${DOCKER_IMAGES[@]}
-    do
-        docker pull $image
-    done
-else
-    echo " > Docker images have already been updated today, to force use '--pull'"
-fi
-
-#Run docker containers
-docker-compose up -d --no-recreate
-
-#Pre build scritpt:
-# ./provision/preBuild
-
-#Start proxy
-docker start proxy || \
-docker run \
-    -d \
-    --restart always \
-    --name proxy \
-    -p 80:80 \
-    -v /var/run/docker.sock:/tmp/docker.sock \
-    jwilder/nginx-proxy
-
+checkRequirements
+syncFiles
 
 ################################################################################
