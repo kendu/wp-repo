@@ -51,17 +51,6 @@ fi
 docker-compose up -d --no-recreate
 
 #Pre build scritpt:
-# ./provision/preBuild
-
-#Start proxy
-docker start proxy || \
-docker run \
-    -d \
-    --restart always \
-    --name proxy \
-    -p 80:80 \
-    -v /var/run/docker.sock:/tmp/docker.sock \
-    jwilder/nginx-proxy
-
+./provision/preBuild
 
 ################################################################################

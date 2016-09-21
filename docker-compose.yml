@@ -1,17 +1,34 @@
-wp:
-  image: kendu/wordpress
-  environment:
-    - VIRTUAL_HOST=wp-repo.local
-    - WORDPRESS_DB_HOST=mysql
-    - WORDPRESS_DB_USER=wp_user
-    - WORDPRESS_DB_PASSWORD=secretPassowrd
-    - WORDPRESS_DB_NAME=wp_database
-  volumes:
-      - ./wp:/var/www/html/wp-content
-  hostname:   wp-repo.local
+version: '2'
+services:
+  wp:
+    image: kendu/wordpress
+    environment:
+      - VIRTUAL_HOST=wp-repo.local
+      - WORDPRESS_DB_HOST=mysql
+      - WORDPRESS_DB_USER=wp_user
+      - WORDPRESS_DB_PASSWORD=secretPassowrd
+      - WORDPRESS_DB_NAME=wp_database
+    volumes:
+        - ./html:/var/www/html
+    networks:
+      - default
+      - proxy_default
 
-builder:
-  image:    kendu/projectbuilder
-  volumes:
-    - .:/opt/web
-  working_dir: /opt/web
+  builder:
+    image:    kendu/projectbuilder
+    volumes:
+      - .:/opt/web
+    working_dir: /opt/web
+    
+  mysql:
+   image: mysql
+   environment:
+     MYSQL_DATABASE: wp_database
+     MYSQL_USER: wp_user
+     MYSQL_PASSWORD: secretPassowrd
+     MYSQL_ROOT_PASSWORD: verySecretPassword
+
+networks:
+ proxy_default:
+   external:
+     name: proxy_default

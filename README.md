@@ -46,7 +46,7 @@ hostname
 Mount the theme you are developing into the wordpress container like this:
 ```
 volumes:
-    - ./wp:/var/www/html/wp-content
+    - ./html:/var/www/html/wp-content
     - ./<theme directory>:/var/www/html/wp-content/themes/<theme directory>
 ```
 
@@ -100,6 +100,14 @@ docker-compose run builder bash
 But of course you won't be running things manually, now will you?
 To make things tidier, add all commands needed to run to the provisionDeploy
 script. This commands will be run when the setup script is run.
+
+### Running provision inside the  theme directory
+
+To run npm, gulp and other tools inside the theme directory instead of the project root, just change the volume mounts to mount the theme directory instead of the project root.
+This  needs to be done in 2 places:
+* The docker compose file under the builder container, mount the `html/themes/<theme_name>` into /opt/web
+* provision/preBuild script -  in the provision function where $(pwd) is mounted into /opt/web inside the docker container, mount the `$(pwd)/html/themes/<theme_name>` instead
+
 
 ### Email configuration
 On servers you want mails to be sent via the host. To do that you need to:
